@@ -13,6 +13,23 @@ TickTock provides a visual front-end (accessible via the browser) through which 
 ## Sample docker-compose.yml
 
 A configuration file (more on that below) must be mounted into the TickTock container at `/config.yml`.
+```
+#EDITED#
+version: '3.4'
+
+services:
+
+  ticktock:
+    container_name: "tixxy"
+    image: tkambler/ticktock
+    
+    volumes:
+      - ./config.yml:/config.yml
+      - ./db.sqlite:/var/ticktock
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:80"
+
 
 ```
 version: '3.4'
@@ -37,55 +54,39 @@ admin:
   
 # Mandatory. An array of task descriptions.
   
-tasks:
+#EDITED - MUST USE FORMAT FROM SAMPLE FOR IT TO WORK:
 
+timezone: America/New_York
+
+admin:
+  username: username
+  password: password
+  
+tasks:
   - title: Do Something
     description: It does something very important.
-    interval: every 10 seconds
-    # Valid values: run, exec
-    # A `run` task runs within a container that is created and removed for each execution.
+    id: do_something
+    interval: every 1000 seconds
     type: run
     image: mhart/alpine-node:8.6.0
     command: ["ls", "-al"]
-    # If overlap is enabled, tasks will continue to be executed, even if previous executions
-    # have not yet completed. Default: false
     overlap: false
-    # If true, automatically execute the task when TickTock is first launched. Default: false
-    execute_on_start: true
-    # Default: true
-    enabled: false
-    
-  - title: List running processes
+    enabled: true
+    execute_on_start: false
+  - title: List Running Processes
     description: It lists running processes.
-    interval: every 10 seconds
-    # You can also define the interval using the crontab format (see below).
-    # interval: "23 16 * * *"
-    # Valid values: run, exec
-    # An `exec` task runs within a pre-existing container that has already been started.
-    type: exec
-    # The name of the container within which the task will be executed.
-    container: container1
+    id: list_processes
+    interval: "* */1 * * *"
+    type: run
+    image: mhart/alpine-node:8.6.0
     command: ["ps", "aux"]
     overlap: false
     enabled: true
-    # If specified, each time the task is run a random number between 0 and the provided value
-    # will be generated. Execution of the task will then delayed by that number of seconds.
-    random_delay: 20
-    # If SMTP notifications have been configured, you can pass an array of recipients here.
-    email:
-      - foo@localhost.site
-      - herp@derp.com
-     # Optional. If set, notifications will be combined into a single email that is sent out
-     # after x number of executions have occurred.
-    batch_email_interval: 10
-      
-# Optional.
+    execute_on_start: false
 email:
   smtp:
     from_name: TickTock
     from_email: ticktock@localhost.site
-    # Values stored under the `config` property are passed directly to NodeMailer.
-    # Configuration details can be found here: http://nodemailer.com/smtp/
     config:
       host: maildev
       port: 25
