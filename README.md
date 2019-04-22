@@ -14,7 +14,7 @@ TickTock provides a visual front-end (accessible via the browser) through which 
 
 A configuration file (more on that below) must be mounted into the TickTock container at `/config.yml`.
 ```
-#EDITED#
+## EDITED
 version: '3.4'
 
 services:
@@ -29,7 +29,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080:80"
-
+```
 
 ```
 version: '3.4'
@@ -54,7 +54,7 @@ admin:
   
 # Mandatory. An array of task descriptions.
   
-#EDITED - MUST USE FORMAT FROM SAMPLE FOR IT TO WORK:#
+## EDITED - MUST USE FORMAT FROM SAMPLE FOR IT TO WORK:
 
 timezone: America/New_York
 
