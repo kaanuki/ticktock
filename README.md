@@ -54,7 +54,7 @@ admin:
   
 # Mandatory. An array of task descriptions.
   
-#EDITED - MUST USE FORMAT FROM SAMPLE FOR IT TO WORK:
+#EDITED - MUST USE FORMAT FROM SAMPLE FOR IT TO WORK:#
 
 timezone: America/New_York
 
