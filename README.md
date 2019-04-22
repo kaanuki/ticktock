@@ -14,7 +14,7 @@ TickTock provides a visual front-end (accessible via the browser) through which 
 
 A configuration file (more on that below) must be mounted into the TickTock container at `/config.yml`.
 ```
-## EDITED
+## EDITED - MUST EXPOSE PORT
 version: '3.4'
 
 services:
